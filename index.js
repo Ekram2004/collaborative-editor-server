@@ -13,7 +13,12 @@ const User = require("./models/User");
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://collaborative-editor-client-two.vercel.app", // Your Vercel URL
+    methods: ["GET", "POST"],
+  })
+);
 
 const SECRET_KEY = "your_super_secret_key";
 
@@ -146,7 +151,12 @@ app.delete("/documents/:id", verifyToken, async (req, res) => {
 
 // --- SOCKET.IO LOGIC ---
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "http://localhost:3000" } });
+const io = new Server(server, {
+  cors: {
+    origin: "https://collaborative-editor-client-two.vercel.app",
+    methods: ["GET", "POST"],
+  },
+});
 
 const saveTimers = {};
 const activeDocs = {};
