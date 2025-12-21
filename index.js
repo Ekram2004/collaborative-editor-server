@@ -1,5 +1,6 @@
-const dotenv = require('dotenv');
-dotenv.config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -7,7 +8,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const Y = require("yjs");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt"); 
+const bcrypt = require("bcrypt");
 const User = require("./models/User");
 
 const app = express();
@@ -126,13 +127,15 @@ app.post("/documents/:id/meta", verifyToken, async (req, res) => {
 // DELETE a document
 app.delete("/documents/:id", verifyToken, async (req, res) => {
   try {
-    const result = await Document.findOneAndDelete({ 
-      _id: req.params.id, 
-      owner: req.userId 
+    const result = await Document.findOneAndDelete({
+      _id: req.params.id,
+      owner: req.userId,
     });
 
     if (!result) {
-      return res.status(404).json({ message: "Document not found or unauthorized" });
+      return res
+        .status(404)
+        .json({ message: "Document not found or unauthorized" });
     }
 
     res.json({ message: "Document deleted successfully" });
