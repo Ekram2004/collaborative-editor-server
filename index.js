@@ -1,3 +1,5 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -193,7 +195,7 @@ io.on("connection", (socket) => {
 });
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/collaborative-editor")
+  .connect(process.env.MONGO_URI)
   .then(() =>
     server.listen(3001, () => console.log("🚀 Server & DB Ready on port 3001"))
   );
