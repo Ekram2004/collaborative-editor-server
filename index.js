@@ -12,6 +12,7 @@ const bcrypt = require("bcrypt");
 const User = require("./models/User");
 
 const app = express();
+app.use(express.json());
 const allowedOrigins = [
   "https://collaborative-editor-client-1mmcbutsk-ekram2004s-projects.vercel.app",
   "https://collaborative-editor-client-two.vercel.app",
