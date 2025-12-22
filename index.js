@@ -12,14 +12,25 @@ const bcrypt = require("bcrypt");
 const User = require("./models/User");
 
 const app = express();
-app.use(express.json());
+const allowedOrigins = [
+  "https://collaborative-editor-client-1mmcbutsk-ekram2004s-projects.vercel.app",
+  "https://collaborative-editor-client-two.vercel.app",
+];
+
 app.use(
   cors({
-    origin:
-      "collaborative-editor-client-1mmcbutsk-ekram2004s-projects.vercel.app", // Your Vercel URL
-    methods: ["GET", "POST"],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 );
+
 
 const SECRET_KEY = "your_super_secret_key";
 
@@ -154,9 +165,12 @@ app.delete("/documents/:id", verifyToken, async (req, res) => {
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin:
-      "collaborative-editor-client-1mmcbutsk-ekram2004s-projects.vercel.app",
+    origin: [
+      "https://collaborative-editor-client-1mmcbutsk-ekram2004s-projects.vercel.app",
+      "https://collaborative-editor-client-two.vercel.app",
+    ],
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
