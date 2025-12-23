@@ -17,8 +17,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://collaborative-editor-client-two.vercel.app", // No '/' at the end!
-  "https://collaborative-editor-client-1mmcbutsk-ekram2004s-projects.vercel.app",
+  "https://collaborative-editor-client-2f8a8mk3k-ekram2004s-projects.vercel.app"
 ];
 
 // Replace your existing app.use(cors(...)) with this:
