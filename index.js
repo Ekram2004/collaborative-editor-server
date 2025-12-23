@@ -17,19 +17,15 @@ app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://collaborative-editor-client-two.vercel.app",
+  "https://collaborative-editor-client-two.vercel.app", // No '/' at the end!
   "https://collaborative-editor-client-1mmcbutsk-ekram2004s-projects.vercel.app",
 ];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) callback(null, true);
-      else callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-  })
-);
+// Replace your existing app.use(cors(...)) with this:
+app.use(cors({
+  origin: true, // This dynamically reflects the origin of the requester
+  credentials: true
+}));
 
 const SECRET_KEY = process.env.SECRET_KEY || "your_super_secret_key";
 
